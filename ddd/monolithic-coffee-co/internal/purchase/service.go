@@ -5,6 +5,7 @@ import (
 	"coffeeco/internal/payment"
 	"coffeeco/internal/store"
 	"context"
+	"errors"
 	"fmt"
 )
 
@@ -12,6 +13,14 @@ type Service struct {
 	cardChargeService payment.CardChargeService
 	storeService      store.Service
 	purchaseRepo      Repository
+}
+
+func NewService(cardChargeService payment.CardChargeService, storeService store.Service, purchaseRepo Repository) *Service {
+	return &Service{
+		cardChargeService: cardChargeService,
+		storeService:      storeService,
+		purchaseRepo:      purchaseRepo,
+	}
 }
 
 func (s Service) CompletePurchase(ctx context.Context, purchase *Purchase, coffeeBuxCard *loyalty.CoffeeBux) error {
@@ -51,7 +60,7 @@ func (s Service) CompletePurchase(ctx context.Context, purchase *Purchase, coffe
 
 func (s *Service) calculateStoreSpecificDiscount(ctx context.Context, purchase *Purchase) error {
 	discount, err := s.storeService.GetStoreSpecificDiscount(ctx, purchase.Store.ID)
-	if err != nil && err != store.ErrNoDiscount {
+	if err != nil && !errors.Is(err, store.ErrNoDiscount) {
 		return fmt.Errorf("failed to get store discount: %w", err)
 	}
 

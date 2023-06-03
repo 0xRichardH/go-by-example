@@ -1,7 +1,6 @@
 package service
 
 import (
-	"coffeeco/internal/payment"
 	"context"
 	"errors"
 	"fmt"
@@ -14,8 +13,6 @@ import (
 type StripeService struct {
 	stripeClient *client.API
 }
-
-var _ payment.CardChargeService = (*StripeService)(nil)
 
 func NewStripeService(apiKey string) (*StripeService, error) {
 	if apiKey == "" {

@@ -24,3 +24,17 @@
 - Store-specific (but not national) discounts
 - We can assume all purchases are in USD for now; in the future, we need to support many currencies though
 - Drinks only need to come in one size for now
+
+### Run the example
+
+- Start mongo server
+```
+docker-compose up
+```
+
+- Run the example
+```
+go run ./cmd/main.go
+```
+
+- To verify if the purchase succeeded, go to `http://localhost:8081/`
