@@ -1,4 +1,7 @@
-FROM golang:1.20.4
+FROM almalinux:8.5
+
+RUN dnf install epel-release dnf-plugins-core -y
+RUN dnf --enablerepo=powertools install clang go make libbpf-devel -y
 
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 
@@ -9,4 +12,4 @@ RUN go mod download
 
 COPY *.go ./
 
-CMD ["dlv", "trace", "--ebpf", "foo"]
+CMD ["~/go/bin/dlv", "trace", "--ebpf", "foo"]

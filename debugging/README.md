@@ -19,10 +19,22 @@ dlv trace --ebpf foo
 # unable to set tracepoint on function main.foo: "eBPF is not supported"
 ```
 
-- useing docker on macOS
+- using docker on macOS
 
 ```
 docker build -t dlv-debugging-foo .
 docker run -it --rm dlv-debugging-foo
 docker rmi dlv-debugging-foo
+```
+
+- using Fedora
+
+> https://www.youtube.com/watch?v=eZp_3EjJdnA
+
+```
+sudo dnf install clang go make libbpf-devel bpftool
+```
+
+```
+go install github.com/go-delve/delve/cmd/dlv@latest
 ```
